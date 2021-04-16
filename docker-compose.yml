@@ -1,0 +1,21 @@
+version: "3.9"
+services:
+    postgres:
+      image: postgres
+      restart: always
+      ports:
+        - "5432:5432"
+      environment:
+        POSTGRES_PASSWORD: 123456
+
+    meritt:
+        build: .
+        command: npm run dev
+        hostname: meritt
+        depends_on:
+          - postgres
+        ports:
+            - "3000:3000"
+        volumes:
+          - ./src:/usr/app/src
+          - ./nodemon.json:/usr/app/nodemon.json

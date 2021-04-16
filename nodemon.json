@@ -1,0 +1,13 @@
+{
+	"env": {
+		"TS_NODE_FILES": true,
+		"TZ": "UTC"
+	},
+	"exec": "node -r ts-node/register --inspect src/index.ts",
+	"ext": "json,ts",
+	"ignore": [
+		"src/**/*.spec.ts",
+		"src/**/*.d.ts"
+	],
+	"watch": ["src"]
+}
