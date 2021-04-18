@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
-import AppError from '../../errors/AppError';
 import { getRepository } from 'typeorm';
-import Exam, { ExamType } from '../../entity/Exam'
+
+import AppError from '../../errors/AppError';
+import Exam, { ExamType } from '../../entity/Exam';
 
 export async function createExam(req: Request, res: Response, next: NextFunction): Promise<void> {
 	const examRepository = getRepository(Exam);
@@ -13,7 +14,7 @@ export async function createExam(req: Request, res: Response, next: NextFunction
 			examType,
 		} = req.body;
 
-		if(!(examType === ExamType.online || examType === ExamType.offline)){
+		if (!(examType === ExamType.online || examType === ExamType.offline)) {
 			throw new AppError('Invalid Data.');
 		}
 
@@ -21,15 +22,14 @@ export async function createExam(req: Request, res: Response, next: NextFunction
 			name,
 			description,
 			type: examType,
-		})
+		});
 
 		await examRepository.save(exam);
 
-		res.status(200).json(exam)
-	} catch(err){
-		next(err)
+		res.status(200).json(exam);
+	} catch (err) {
+		next(err);
 	}
-
 }
 
 export async function modifyExam(req: Request, res: Response, next: NextFunction): Promise<void> {
@@ -43,17 +43,17 @@ export async function modifyExam(req: Request, res: Response, next: NextFunction
 			examType,
 		} = req.body;
 
-		if(!(examType === ExamType.online || examType === ExamType.offline)){
+		if (!(examType === ExamType.online || examType === ExamType.offline)) {
 			throw new AppError('Invalid Exam Type.');
 		}
 
 		const exam = await examRepository.findOne({
 			where: {
 				id,
-			}
-		})
+			},
+		});
 
-		if(!exam){
+		if (!exam) {
 			throw new AppError('Exam does not exists.');
 		}
 
@@ -64,10 +64,9 @@ export async function modifyExam(req: Request, res: Response, next: NextFunction
 		await examRepository.save(exam);
 
 		res.status(200).json(exam);
-	} catch(err){
-		next(err)
+	} catch (err) {
+		next(err);
 	}
-
 }
 
 export async function retrieveExam(req: Request, res: Response, next: NextFunction): Promise<void> {
@@ -78,19 +77,18 @@ export async function retrieveExam(req: Request, res: Response, next: NextFuncti
 
 		const exam = await examRepository.findOne({
 			where: {
-				id
-			}
-		})
+				id,
+			},
+		});
 
-		if(!exam){
+		if (!exam) {
 			throw new AppError('Exam does not exists.');
 		}
 
 		res.status(200).json(exam);
-	} catch(err){
-		next(err)
+	} catch (err) {
+		next(err);
 	}
-
 }
 
 export async function deleteExam(req: Request, res: Response, next: NextFunction): Promise<void> {
@@ -101,19 +99,18 @@ export async function deleteExam(req: Request, res: Response, next: NextFunction
 
 		const exam = await examRepository.findOne({
 			where: {
-				id
-			}
-		})
+				id,
+			},
+		});
 
-		if(!exam){
-			throw new AppError('Exam does not exists.')
+		if (!exam) {
+			throw new AppError('Exam does not exists.');
 		}
 
-		await examRepository.delete(exam)
+		await examRepository.delete(exam);
 
 		res.status(200);
-	} catch(err){
-		next(err)
+	} catch (err) {
+		next(err);
 	}
-
 }

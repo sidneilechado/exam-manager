@@ -3,7 +3,7 @@ import {
 	createExam,
 	modifyExam,
 	retrieveExam,
-	deleteExam
+	deleteExam,
 } from './useCases';
 
 export default function (): Router {
