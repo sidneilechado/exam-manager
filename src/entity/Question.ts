@@ -1,8 +1,8 @@
 import {
-	Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany,
+	Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToMany,
 } from 'typeorm';
-import Option from './Option'
-import Exam from './Exam'
+import Option from './Option';
+import Exam from './Exam';
 
 @Entity()
 export default class Question {
@@ -12,9 +12,12 @@ export default class Question {
 	@Column()
 	statement: string;
 
+	@Column()
+	correctAnswer: string;
+
 	@OneToMany((type) => Option, (option) => option.question)
 	options: Option[];
 
-	@ManyToOne((type) => Exam, (exam) => exam.questions)
-	exam: Exam;
+	@ManyToMany((type) => Exam, (exam) => exam.questions)
+	exams: Exam[];
 }

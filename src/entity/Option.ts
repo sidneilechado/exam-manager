@@ -1,7 +1,7 @@
 import {
 	Entity, PrimaryGeneratedColumn, Column, ManyToOne,
 } from 'typeorm';
-import Question from './Question'
+import Question from './Question';
 
 @Entity()
 export default class Option {
@@ -13,9 +13,6 @@ export default class Option {
 
 	@Column()
 	value: string;
-
-	@Column()
-	isCorrectAnswer: boolean;
 
 	@ManyToOne((type) => Question, (question) => question.options)
 	question: Question;

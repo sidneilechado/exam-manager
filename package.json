@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "src/index.ts",
 	"scripts": {
-		"lint": "eslint . --ext js,jsx,ts,tsx",
+		"lint": "eslint . --ext js,jsx,ts,tsx --fix",
 		"compile": "tsc",
 		"dev": "nodemon",
 		"start": "ts-node src/index.ts"

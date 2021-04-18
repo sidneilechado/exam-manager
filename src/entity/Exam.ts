@@ -1,7 +1,7 @@
 import {
-	Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany,
+	Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable,
 } from 'typeorm';
-import Question from './Question'
+import Question from './Question';
 
 export enum ExamType {
 	online = 'ONLINE',
@@ -20,12 +20,13 @@ export default class Exam {
 	description: string;
 
 	@Column({
-		type: "enum",
+		type: 'enum',
 		enum: ExamType,
-		default: ExamType.online
+		default: ExamType.online,
 	})
 	type: ExamType;
 
-	@OneToMany((type) => Question, (question) => question.exam)
+	@ManyToMany((type) => Question, (question) => question.exams)
+	@JoinTable()
 	questions: Question[];
 }
