@@ -3,7 +3,10 @@ import {
 } from 'typeorm';
 import Question from './Question'
 
-export type ExamType = 'ONLINE' | 'OFFLINE';
+export enum ExamType {
+	online = 'ONLINE',
+	offline = 'OFFLINE',
+}
 
 @Entity()
 export default class Exam {
@@ -14,6 +17,13 @@ export default class Exam {
 	name: string;
 
 	@Column()
+	description: string;
+
+	@Column({
+		type: "enum",
+		enum: ExamType,
+		default: ExamType.online
+	})
 	type: ExamType;
 
 	@OneToMany((type) => Question, (question) => question.exam)

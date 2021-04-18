@@ -1,4 +1,4 @@
-FROM node:15.14.0 AS base
+FROM node:14.16.0 AS base
 
 ENV LANG C.UTF-8
 
