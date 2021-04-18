@@ -4,9 +4,9 @@
 	"description": "",
 	"main": "src/index.ts",
 	"scripts": {
+		"lint": "eslint . --ext js,jsx,ts,tsx",
 		"compile": "tsc",
 		"dev": "nodemon",
-		"typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
 		"start": "ts-node src/index.ts"
 	},
 	"keywords": [],
