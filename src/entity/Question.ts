@@ -1,5 +1,5 @@
 import {
-	Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToMany,
+	Entity, PrimaryGeneratedColumn, Column, ManyToMany, OneToMany,
 } from 'typeorm';
 import Option from './Option';
 import Exam from './Exam';
@@ -15,7 +15,10 @@ export default class Question {
 	@Column()
 	correctAnswer: string;
 
-	@OneToMany((type) => Option, (option) => option.question)
+	@OneToMany(
+		(type) => Option, (option) => option.question,
+		{ onDelete: 'CASCADE' },
+	)
 	options: Option[];
 
 	@ManyToMany((type) => Exam, (exam) => exam.questions)
