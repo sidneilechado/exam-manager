@@ -1,1 +1,625 @@
-{}
+{
+	"openapi": "3.0.2",
+	"info": {
+		"title": "Exam Manager API",
+		"description": "Describes the API for Exam Manager application.",
+		"contact": {
+			"name": "Sidnei Lechado",
+			"email": "sidneilechado.dev@gmail.com"
+		},
+		"version": "1.0.0"
+	},
+	"components": {
+		"schemas": {
+			"Exam": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "number"
+					},
+					"name": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"examType": {
+						"type": "string",
+						"enum": ["OFFLINE", "ONLINE"]
+					},
+					"questions": {
+						"type": "array",
+						"$ref": "#components/schemas/Question"
+					}
+				}
+			},
+			"Question": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "number"
+					},
+					"statement": {
+						"type": "string"
+					},
+					"correctAnswer": {
+						"type": "string"
+					},
+					"options": {
+						"type": "array",
+						"items": {
+							"$ref": "#components/schemas/Option"
+						}
+					}
+				}
+			},
+			"Option": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "number"
+					},
+					"key": {
+						"type": "string"
+					},
+					"value": {
+						"type": "string"
+					}
+				}
+			}
+		},
+		"responses": {
+			"InternalError": {
+				"description": "An internal error happened while processing the request (500)",
+				"content": {
+					"application/json": {
+						"schema": {
+							"type": "object",
+							"properties": {
+								"message": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			},
+			"InvalidData": {
+				"description": "The request could not be completed, due to an error while validating the given data",
+				"content": {
+					"application/json": {
+						"schema": {
+							"type": "object",
+							"properties": {
+								"message": {
+									"type": "string",
+									"example": "Some data was invalid."
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"paths": {
+		"/api/exam/create": {
+			"post": {
+				"operationId": "createExam",
+				"summary": "Creates an exam",
+				"tags": [
+					"Exam"
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"name": {
+										"type": "string"
+									},
+									"description": {
+										"type": "string"
+									},
+									"examType": {
+										"type": "string",
+										"enum": ["OFFLINE", "ONLINE"]
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Exam successfully created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#components/schemas/Exam"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/exam/{id}": {
+			"get": {
+				"operationId": "retrieveExam",
+				"summary": "Retrieves an exam",
+				"tags": [
+					"Exam"
+				],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "params",
+						"description": "Exam id to be retrieved",
+						"required": true,
+						"schema": {
+							"type": "number"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Exam retrieved",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#components/schemas/Exam"
+								}
+							}
+						}
+					},
+					"400": {
+						"$ref": "#components/responses/InvalidData"
+					}
+				}
+			}
+		},
+		"/api/exam/modify/{id}": {
+			"put": {
+				"operationId": "modifyExam",
+				"summary": "Modifies an exam",
+				"tags": [
+					"Exam"
+				],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "params",
+						"description": "Exam id to be modified",
+						"required": true,
+						"schema": {
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"name": {
+										"type": "string"
+									},
+									"description": {
+										"type": "string"
+									},
+									"examType": {
+										"type": "string",
+										"enum": ["OFFLINE", "ONLINE"]
+									},
+									"questions":{
+										"$ref": "#components/schemas/Question"
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Exam successfully modified",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#components/schemas/Exam"
+								}
+							}
+						}
+					},
+					"400": {
+						"$ref": "#components/responses/InvalidData"
+					}
+				}
+			}
+		},
+		"/api/exam/delete/{id}": {
+			"delete": {
+				"operationId": "deleteExam",
+				"summary": "Deletes an exam",
+				"tags": [
+					"Exam"
+				],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "params",
+						"description": "Exam id to be retrieved",
+						"required": true,
+						"schema": {
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"name": {
+										"type": "string"
+									},
+									"description": {
+										"type": "string"
+									},
+									"examType": {
+										"type": "string",
+										"enum": ["OFFLINE", "ONLINE"]
+									},
+									"questions":{
+										"$ref": "#components/schemas/Question"
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Exam successfully modified",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#components/schemas/Exam"
+								}
+							}
+						}
+					},
+					"400": {
+						"$ref": "#components/responses/InvalidData"
+					}
+				}
+			}
+		},
+		"/api/exam/{examId}/{questioId}": {
+			"post": {
+				"operationId": "addQuestionToExam",
+				"summary": "Add a single question to an exam",
+				"tags": [
+					"Exam"
+				],
+				"parameters": [
+					{
+						"name": "examId",
+						"in": "params",
+						"description": "Exam id to have question inserted into",
+						"required": true,
+						"schema": {
+							"type": "number"
+						}
+					},
+					{
+						"name": "questionId",
+						"in": "params",
+						"description": "Question id be inserted",
+						"required": true,
+						"schema": {
+							"type": "number"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Question successfully inserted",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#components/schemas/Exam"
+								}
+							}
+						}
+					},
+					"400": {
+						"$ref": "#components/responses/InvalidData"
+					}
+				}
+			}
+		},
+		"/api/exam/{examId}/{questionId}": {
+			"delete": {
+				"operationId": "deleteQuestionFromExam",
+				"summary": "Delete a single question from an exam",
+				"tags": [
+					"Exam"
+				],
+				"parameters": [
+					{
+						"name": "examId",
+						"in": "params",
+						"description": "Exam id to have question inserted into",
+						"required": true,
+						"schema": {
+							"type": "number"
+						}
+					},
+					{
+						"name": "questionId",
+						"in": "params",
+						"description": "Question id be inserted",
+						"required": true,
+						"schema": {
+							"type": "number"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Question successfully inserted",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#components/schemas/Exam"
+								}
+							}
+						}
+					},
+					"400": {
+						"$ref": "#components/responses/InvalidData"
+					}
+				}
+			}
+		},
+		"/api/question/create": {
+			"post": {
+				"operationId": "createQuestion",
+				"summary": "Creates a question",
+				"tags": [
+					"Question"
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#components/schemas/Question"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Question successfully created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#components/schemas/Question"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/question/{id}": {
+			"get": {
+				"operationId": "retrieveQuestion",
+				"summary": "Retrieves a question",
+				"tags": [
+					"Question"
+				],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "params",
+						"description": "Question id to be retrieved",
+						"required": true,
+						"schema": {
+							"type": "number"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Question retrieved",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#components/schemas/Question"
+								}
+							}
+						}
+					},
+					"400": {
+						"$ref": "#components/responses/InvalidData"
+					}
+				}
+			}
+		},
+		"/api/question/modify/{id}": {
+			"put": {
+				"operationId": "modifyQuestion",
+				"summary": "Modifies a question",
+				"tags": [
+					"Question"
+				],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "params",
+						"description": "Question id to be modified",
+						"required": true,
+						"schema": {
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#components/schemas/Question"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Question successfully modified",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#components/schemas/Question"
+								}
+							}
+						}
+					},
+					"400": {
+						"$ref": "#components/responses/InvalidData"
+					}
+				}
+			}
+		},
+		"/api/question/delete/{id}": {
+			"delete": {
+				"operationId": "deleteQuestion",
+				"summary": "Deletes a question",
+				"tags": [
+					"Question"
+				],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "params",
+						"description": "Question id to be deleted",
+						"required": true,
+						"schema": {
+							"type": "number"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Questions successfully deleted"
+					},
+					"400": {
+						"$ref": "#components/responses/InvalidData"
+					}
+				}
+			}
+		},
+		"/api/question/option/{id}": {
+			"post": {
+				"operationId": "insertSingleOption",
+				"summary": "Insert a single option into a question",
+				"tags": [
+					"Question"
+				],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "params",
+						"description": "Question id to have option inserted into",
+						"required": true,
+						"schema": {
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#components/schemas/Option"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Option successfully removed",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#components/schemas/Option"
+								}
+							}
+						}
+					},
+					"400": {
+						"$ref": "#components/responses/InvalidData"
+					}
+				}
+			}
+		},
+		"/api/question/{id}/{key}": {
+			"delete": {
+				"operationId": "deleteSingleOption",
+				"summary": "Delete a single option from a question",
+				"tags": [
+					"Question"
+				],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "params",
+						"description": "Question id to have option removed",
+						"required": true,
+						"schema": {
+							"type": "number"
+						}
+					},
+					{
+						"name": "key",
+						"in": "params",
+						"description": "Key to be removed",
+						"required": true,
+						"schema": {
+							"type": "number"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Option successfully removed",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#components/schemas/Option"
+								}
+							}
+						}
+					},
+					"400": {
+						"$ref": "#components/responses/InvalidData"
+					}
+				}
+			}
+		}
+	},
+	"tags": [
+		{
+			"name": "Exam",
+			"description": "API related to exam management"
+		},
+		{
+			"name": "Question",
+			"description": "API related to question management"
+		}
+	]
+}

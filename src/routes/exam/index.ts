@@ -14,7 +14,7 @@ export default function (): Router {
 	router.get('/:id', retrieveExam);
 	router.post('/create', createExam);
 	router.put('/modify/:id', modifyExam);
-	router.delete('/:id', deleteExam);
+	router.delete('/delete/:id', deleteExam);
 
 	router.post('/:examId/:questionId', addQuestionToExam);
 	router.delete('/:examId/:questionId', deleteQuestionFromExam);
