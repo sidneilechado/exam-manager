@@ -4,6 +4,8 @@ import {
 	modifyExam,
 	retrieveExam,
 	deleteExam,
+	addQuestionToExam,
+	deleteQuestionFromExam,
 } from './useCases';
 
 export default function (): Router {
@@ -13,6 +15,9 @@ export default function (): Router {
 	router.post('/create', createExam);
 	router.put('/modify/:id', modifyExam);
 	router.delete('/:id', deleteExam);
+
+	router.post('/:examId/:questionId', addQuestionToExam);
+	router.delete('/:examId/:questionId', deleteQuestionFromExam);
 
 	return router;
 }
