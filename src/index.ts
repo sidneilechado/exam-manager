@@ -1,14 +1,10 @@
 import 'reflect-metadata';
 import cors from 'cors';
 import express, { Request, Response, NextFunction } from 'express';
-import { createConnection } from 'typeorm';
 import api from './routes';
 import 'express-async-errors';
 import AppError from './errors/AppError';
-
-createConnection().then(async () => {
-	console.log('Connected to Postgres DB...');
-}).catch((error) => console.error(error));
+import './database';
 
 const app = express();
 

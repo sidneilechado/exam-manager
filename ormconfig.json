@@ -1,10 +1,10 @@
 {
    "type": "postgres",
-   "host": "postgres",
+   "host": "tuffi.db.elephantsql.com",
    "port": 5432,
-   "username": "postgres",
-   "password": "123456",
-   "database": "postgres",
+   "username": "gcwgkzgw",
+   "password": "wt0S-kjHa_ZOysSK6u2YoR7oFC06AArt",
+   "database": "gcwgkzgw",
    "synchronize": true,
    "logging": false,
    "entities": [
